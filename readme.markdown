@@ -71,7 +71,7 @@ contain output from the worker:
 var work = require('webworkify')
 ```
 
-## var w = work(require(modulePath))
+## var w = work(require(modulePath), moduleId)
 
 Return a new
 [web worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker)
@@ -85,6 +85,20 @@ the main thread too so don't put any computationally intensive code in that
 part. It is necessary for the main code to `require()` the worker code to fetch
 the module reference and load `modulePath`'s dependency graph into the bundle
 output.
+
+`moduleId` is required when bundling with webpack. You can get the `moduleId` by calling `require.resolve(modulePath)`. It is suggested to use a `resolveWorker()` function like in the above example to avoid runtime errors when bundled with browserify.
+
+``` js
+var resolveWorker = function() {
+  var result;
+
+  try {
+    result = require.resolve(modulePath);
+  } catch (e) {}
+
+  return result;
+};
+```
 
 ## Worker.objectURL
 

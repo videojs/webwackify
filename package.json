@@ -6,7 +6,7 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "git@github.com:mjneil/webwackify.git"
+    "url": "git@github.com:videojs/webwackify.git"
   },
   "author": {
     "name": "Matt Neil"

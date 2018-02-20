@@ -1,5 +1,7 @@
 # webwackify
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/videojs/webwackify.svg)](https://greenkeeper.io/)
+
 Inspired heavily by [webworkify](https://github.com/browserify/webworkify) and [webworkify-webpack-dropin](https://github.com/Ambroos/webworkify-webpack-dropin)
 
 launch a web worker that can require() in the browser with browserify and webpack

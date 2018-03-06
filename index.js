@@ -156,7 +156,14 @@ var bundleWithBrowserify = function(fn) {
 };
 
 var bundleWithWebpack = function(fn, fnModuleId) {
-  var sourceStrings = [];
+  var devMode = typeof fnModuleId === 'string';
+  var sourceStrings;
+
+  if (devMode) {
+    sourceStrings = {};
+  } else {
+    sourceStrings = [];
+  }
 
   Object.keys(sources).forEach(function(sKey) {
     if (!sources[sKey]) {
@@ -165,7 +172,7 @@ var bundleWithWebpack = function(fn, fnModuleId) {
     sourceStrings[sKey] = sources[sKey].toString();
   });
 
-  fnModuleExports = __webpack_require__(fnModuleId);
+  var fnModuleExports = __webpack_require__(fnModuleId);
 
   // Using babel as a transpiler to use esmodule, the export will always
   // be an object with the default export as a property of it. To ensure
@@ -178,9 +185,23 @@ var bundleWithWebpack = function(fn, fnModuleId) {
                                 '\n' + fn.name + '();\n}';
   }
 
-  return 'var fn = (' + bundleFn.toString().replace('entryModule', fnModuleId) + ')(['
-        + sourceStrings.join(',')
-        + ']);\n'
+  var modulesString;
+
+  if (devMode) {
+    fnModuleId = '"' + fnModuleId + '"';
+    // dev mode in webpack4, modules are passed as an object
+    var mappedSourceStrings = Object.keys(sourceStrings).map(function(sKey) {
+      return '"' + sKey + '":' + sourceStrings[sKey];
+    });
+
+    modulesString = '{' + mappedSourceStrings.join(',') + '}';
+  } else {
+    modulesString = '[' + sourceStrings.join(',') + ']';
+  }
+
+  return 'var fn = (' + bundleFn.toString().replace('entryModule', fnModuleId) + ')('
+        + modulesString
+        + ');\n'
         // not a function when calling a function from the current scope
         + '(typeof fn === "function") && fn(self);';
 

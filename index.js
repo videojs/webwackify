@@ -172,7 +172,7 @@ var bundleWithWebpack = function(fn, fnModuleId) {
     sourceStrings[sKey] = sources[sKey].toString();
   });
 
-  fnModuleExports = __webpack_require__(fnModuleId);
+  var fnModuleExports = __webpack_require__(fnModuleId);
 
   // Using babel as a transpiler to use esmodule, the export will always
   // be an object with the default export as a property of it. To ensure

@@ -189,10 +189,10 @@ var bundleWithWebpack = function(fn, fnModuleId) {
 
   if (devMode) {
     // must escape quotes to support webpack loader options
-    fnModuleId = '"' + fnModuleId.replace(/"/g, '\\\"') + '"';
+    fnModuleId = stringify(fnModuleId);
     // dev mode in webpack4, modules are passed as an object
     var mappedSourceStrings = Object.keys(sourceStrings).map(function(sKey) {
-      return '"' + sKey.replace(/"/g, '\\\"') + '":' + sourceStrings[sKey];
+      return stringify(sKey) + ':' + sourceStrings[sKey];
     });
 
     modulesString = '{' + mappedSourceStrings.join(',') + '}';

@@ -130,24 +130,8 @@ var bundleWithBrowserify = function(fn) {
     entryCache
   ];
 
-  var entrySources = {};
-
-  var resolveSources = function resolveSources(key) {
-    entrySources[key] = true;
-
-    for (var depPath in sources[key][1]) {
-      var depKey = sources[key][1][depPath];
-
-      if (!entrySources[depKey]) {
-        resolveSources(depKey);
-      }
-    }
-  };
-
-  resolveSources(entryKey);
-
   return '(' + bundleFn + ')({'
-        + Object.keys(entrySources).map(function(key) {
+        + Object.keys(sources).map(function(key) {
             return stringify(key) + ':['
                 + sources[key][0] + ','
                 + stringify(sources[key][1]) + ']';

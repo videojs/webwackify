@@ -53,6 +53,10 @@ var webpackBootstrapFn = function(modules) {
     }
   };
 
+  __webpack_require__.r = function(exports) {
+    Object.defineProperty(exports, '__esModule', { value: true });
+  }
+
   // getDefaultExport function for compatibility with non-harmony modules
   __webpack_require__.n = function(module) {
     var getter = module && module.__esModule ?
